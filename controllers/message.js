@@ -46,7 +46,7 @@ exports.whatsappmessage = async (req, res) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: msg_body,
+        body: JSON.stringify(msg_body),
       };
       console.log(options);
       request(options, function (error, response) {
