@@ -56,6 +56,7 @@ exports.whatsappmessage = async (req, res) => {
           var senddata = {
             messaging_product: "whatsapp",
             to: from,
+            recipient_type: "individual",
             ...recivedData,
           };
           console.log(">>>>>>>>>>>>", senddata);
