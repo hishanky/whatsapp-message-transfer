@@ -75,7 +75,7 @@ exports.whatsappmessage = async (req, res) => {
               res.sendStatus(200);
             })
             .catch(function (error) {
-              console.log(error);
+              console.log(error.data);
             });
         })
         .catch(function (error) {
