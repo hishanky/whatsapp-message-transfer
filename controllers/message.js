@@ -49,7 +49,7 @@ exports.whatsappmessage = async (req, res) => {
         body: JSON.stringify(msg_body),
       };
       console.log(options);
-      request(options, function (error, response) {
+      request(options, function async(error, response) {
         if (error) throw new Error(error);
         if (response.body.message == "ok") {
           let recivedData = response.body.data;
