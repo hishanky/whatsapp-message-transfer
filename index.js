@@ -27,7 +27,7 @@ process.on("unhandledRejection", (error) => {
   console.log("unhandledRejection", error.message);
 });
 
-app.use("/whatsapp", message);
+app.use("/", message);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {

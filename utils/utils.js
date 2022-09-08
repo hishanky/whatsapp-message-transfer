@@ -1,11 +1,4 @@
-/**
- * name : utils.js
- * author : Aman
- * created-date : 04-Nov-2021
- * Description : Utils helper function.
- */
-
-const { RedisHelper, InternalCache } = require("elevate-node-cache");
+const { InternalCache } = require("elevate-node-cache");
 
 function internalSet(key, value) {
   return InternalCache.setKey(key, value);
