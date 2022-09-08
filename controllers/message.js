@@ -49,8 +49,9 @@ exports.whatsappmessage = async (req, res) => {
         body: JSON.stringify(msg_body),
       };
       console.log(options);
-      request(options, function async(error, response) {
+      request(options, function async(error, datafromlocal) {
         if (error) throw new Error(error);
+        let response = await datafromlocal
         if (response.body.message == "ok") {
           let recivedData = response.body.data;
           console.log(recivedData);
