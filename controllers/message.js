@@ -51,12 +51,40 @@ exports.whatsappmessage = async (req, res) => {
       axios(config)
         .then(function (response) {
           console.log(">>>>>>>", JSON.stringify(response.data));
+
+          let recivedData = response.data.data;
+          var senddata = JSON.stringify({
+            messaging_product: "whatsapp",
+            to: "919920279906",
+            ...recivedData,
+          });
+          console.log(">>>>>>>>>>>>", senddata);
+          var config2 = {
+            method: "post",
+            url:
+              "https://graph.facebook.com/v13.0/" +
+              phon_no_id +
+              "/messages?access_token=" +
+              token,
+            headers: {
+              "Content-Type": "application/json",
+            },
+            data: senddata,
+          };
+
+          console.log("senddata>>>>>>>>", config2);
+          axios(config2)
+            .then(function (response) {
+              res.sendStatus(200);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
         })
         .catch(function (error) {
           console.log(error);
         });
 
-      // console.log(options);
       // request(options, async (error, datafromlocal) => {
       //   if (error) throw new Error(error);
       //   let response = await datafromlocal;
