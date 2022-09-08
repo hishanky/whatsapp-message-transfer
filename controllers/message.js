@@ -39,48 +39,56 @@ exports.whatsappmessage = async (req, res) => {
       console.log("from " + from);
       console.log("boady param " + msg_body);
       const BotData = await utils.internalGet(process.env.BOTNAME);
-
-      var options = {
-        method: "POST",
+      var config = {
+        method: "post",
         url: BotData.Url + "/incomingMessage",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(msg_body),
+        data: JSON.stringify(msg_body),
       };
-      console.log(options);
-      request(options, async (error, datafromlocal) => {
-        if (error) throw new Error(error);
-        let response = await datafromlocal;
-        if (response.body.message == "ok") {
-          let recivedData = response.body.data;
-          console.log(recivedData);
-          var options2 = {
-            method: "POST",
-            url:
-              "https://graph.facebook.com/v13.0/" +
-              phon_no_id +
-              "/messages?access_token=" +
-              token,
-            headers: {
-              "Content-Type": "application/json",
-            },
-            data: {
-              messaging_product: "whatsapp",
-              to: from,
-              ...recivedData,
-            },
-          };
-          console.log(options2);
 
-          request(options2, function (error, response2) {
-            if (error) throw new Error(error);
-            // console.log(">>>>>", response2);
+      axios(config)
+        .then(function (response) {
+          console.log(">>>>>>>", JSON.stringify(response.data));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
 
-            res.sendStatus(200);
-          });
-        }
-      });
+      // console.log(options);
+      // request(options, async (error, datafromlocal) => {
+      //   if (error) throw new Error(error);
+      //   let response = await datafromlocal;
+      //   if (response.body.message == "ok") {
+      //     let recivedData = response.body.data;
+      //     console.log(recivedData);
+      //     var options2 = {
+      //       method: "POST",
+      //       url:
+      //         "https://graph.facebook.com/v13.0/" +
+      //         phon_no_id +
+      //         "/messages?access_token=" +
+      //         token,
+      //       headers: {
+      //         "Content-Type": "application/json",
+      //       },
+      //       data: {
+      //         messaging_product: "whatsapp",
+      //         to: from,
+      //         ...recivedData,
+      //       },
+      //     };
+      //     console.log(options2);
+
+      //     request(options2, function (error, response2) {
+      //       if (error) throw new Error(error);
+      //       // console.log(">>>>>", response2);
+
+      //       res.sendStatus(200);
+      //     });
+      //   }
+      // });
     } else {
       res.sendStatus(404);
     }
