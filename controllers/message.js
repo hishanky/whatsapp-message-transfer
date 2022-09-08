@@ -61,12 +61,9 @@ exports.whatsappmessage = async (req, res) => {
           console.log(">>>>>>>>>>>>", senddata);
           var config2 = {
             method: "post",
-            url:
-              "https://graph.facebook.com/v13.0/" +
-              phon_no_id +
-              "/messages?access_token=" +
-              token,
+            url: "https://graph.facebook.com/v13.0/" + phon_no_id + "/messages",
             headers: {
+              Authorization: "Bearer " + token,
               "Content-Type": "application/json",
             },
             data: senddata,
