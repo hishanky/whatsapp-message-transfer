@@ -51,7 +51,7 @@ exports.whatsappmessage = async (req, res) => {
       console.log(options);
       request(options, function (error, response) {
         if (error) throw new Error(error);
-        if (response) {
+        if (response.body.data) {
           let recivedData = response.body.data;
           console.log(recivedData);
           var options2 = {
