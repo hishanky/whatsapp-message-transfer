@@ -55,7 +55,7 @@ exports.whatsappmessage = async (req, res) => {
           let recivedData = response.data.data;
           var senddata = JSON.stringify({
             messaging_product: "whatsapp",
-            to: "919920279906",
+            to: from,
             ...recivedData,
           });
           console.log(">>>>>>>>>>>>", senddata);
@@ -72,10 +72,11 @@ exports.whatsappmessage = async (req, res) => {
           console.log("senddata>>>>>>>>", config2);
           axios(config2)
             .then(function (response) {
+              console.log(response.data);
               res.sendStatus(200);
             })
             .catch(function (error) {
-              console.log(error.data);
+              console.log(JSON.stringify(error));
             });
         })
         .catch(function (error) {
