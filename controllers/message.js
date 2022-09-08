@@ -62,7 +62,7 @@ exports.whatsappmessage = async (req, res) => {
           data: {
             messaging_product: "whatsapp",
             to: from,
-            ...response.data,
+            ...response.body.data,
           },
           headers: {
             "Content-Type": "application/json",
