@@ -52,7 +52,7 @@ exports.whatsappmessage = async (req, res) => {
         .then(function (response) {
           console.log(">>>>>>>", JSON.stringify(response.data));
 
-          let recivedData = response.data.data;
+          let recivedData = response.data;
           var senddata = {
             messaging_product: "whatsapp",
             to: from,
