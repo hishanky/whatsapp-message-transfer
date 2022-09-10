@@ -1,7 +1,7 @@
 const utils = require("../utils/utils");
 const request = require("request");
 const axios = require("axios");
-
+axios.defaults.timeout = 10000;
 const token = process.env.TOKEN;
 const mytoken = process.env.MYTOKEN;
 
