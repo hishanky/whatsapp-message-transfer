@@ -33,7 +33,7 @@ exports.whatsAPPIncomingMessage = async (req, res) => {
       let msg_body = body_param.entry[0].changes[0].value.messages[0];
       msg_body.phone_number_id =
         body_param.entry[0].changes[0].value.metadata.phone_number_id;
-      console.log("phone number " + phon_no_id);
+      // console.log("phone number " + phon_no_id);
       console.log("from " + from);
       console.log("boady param " + msg_body);
       const BotData = await utils.internalGet(process.env.BOTNAME);
