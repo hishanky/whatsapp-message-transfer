@@ -1,5 +1,4 @@
 const utils = require("../utils/utils");
-const request = require("request");
 const axios = require("axios");
 axios.defaults.timeout = 10000;
 const token = process.env.TOKEN;
@@ -31,9 +30,9 @@ exports.whatsAPPIncomingMessage = async (req, res) => {
     ) {
       let from = body_param.entry[0].changes[0].value.messages[0].from;
       let msg_body = body_param.entry[0].changes[0].value.messages[0];
-      msg_body.phone_number_id =
+      msg_body.whatsAppId =
         body_param.entry[0].changes[0].value.metadata.phone_number_id;
-      // console.log("phone number " + phon_no_id);
+
       console.log("from " + from);
       console.log("boady param " + msg_body);
       const BotData = await utils.internalGet(process.env.BOTNAME);
@@ -63,22 +62,27 @@ exports.whatsAPPIncomingMessage = async (req, res) => {
 exports.whatsappOutgoingMessage = async (req, res) => {
   let recivedData = req.body;
 
-  // var senddata = {
-  //   messaging_product: "whatsapp",
-  //   to: recivedData.from,
-  //   recipient_type: "individual",
-  //   ...recivedData,
-  // };
+  let from = recivedData.from;
+  delete recivedData.from;
   console.log(">>>>>>>>>>>>From local bot", recivedData);
-  // var config2 = {
-  //   method: "post",
-  //   url: "https://graph.facebook.com/v13.0/" + phon_no_id + "/messages",
-  //   headers: {
-  //     Authorization: "Bearer " + token,
-  //     "Content-Type": "application/json",
-  //   },
-  //   data: senddata,
-  // };
+  var config2 = {
+    method: "post",
+    url: "https://graph.facebook.com/v13.0/" + from + "/messages",
+    headers: {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json",
+    },
+    data: recivedData,
+  };
+  axios(config2)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data));
+      res.sendStatus(200);
+    })
+    .catch(function (error) {
+      console.log(error);
+      res.sendStatus(400).error;
+    });
 };
 
 exports.BotMap = async (req, res) => {
@@ -93,7 +97,7 @@ exports.BotMap = async (req, res) => {
   }
 
   res.status(200).send({
-    message: `Bot mapped to ${urlData.Url} Registered successfully`,
+    message: `Bot mapped to ${urlData.Url} Registered successfully 31`,
   });
 };
 
