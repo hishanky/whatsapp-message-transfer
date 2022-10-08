@@ -19,22 +19,20 @@ exports.webhook = async (req, res) => {
   }
 };
 
-exports.whatsappmessage = async (req, res) => {
+exports.whatsAPPIncomingMessage = async (req, res) => {
   let body_param = req.body;
 
   if (body_param.object) {
-    console.log("inside body param");
     if (
       body_param.entry &&
       body_param.entry[0].changes &&
       body_param.entry[0].changes[0].value.messages &&
       body_param.entry[0].changes[0].value.messages[0]
     ) {
-      let phon_no_id =
-        body_param.entry[0].changes[0].value.metadata.phone_number_id;
       let from = body_param.entry[0].changes[0].value.messages[0].from;
       let msg_body = body_param.entry[0].changes[0].value.messages[0];
-
+      msg_body.phone_number_id =
+        body_param.entry[0].changes[0].value.metadata.phone_number_id;
       console.log("phone number " + phon_no_id);
       console.log("from " + from);
       console.log("boady param " + msg_body);
@@ -50,76 +48,37 @@ exports.whatsappmessage = async (req, res) => {
 
       axios(config)
         .then(function (response) {
-          console.log(">>>>>>>", JSON.stringify(response.data));
-
-          let recivedData = response.data;
-          var senddata = {
-            messaging_product: "whatsapp",
-            to: from,
-            recipient_type: "individual",
-            ...recivedData,
-          };
-          console.log(">>>>>>>>>>>>", senddata);
-          var config2 = {
-            method: "post",
-            url: "https://graph.facebook.com/v13.0/" + phon_no_id + "/messages",
-            headers: {
-              Authorization: "Bearer " + token,
-              "Content-Type": "application/json",
-            },
-            data: senddata,
-          };
-
-          console.log("senddata>>>>>>>>", config2);
-          axios(config2)
-            .then(function (response) {
-              console.log(response.data);
-              res.sendStatus(200);
-            })
-            .catch(function (error) {
-              console.log(JSON.stringify(error));
-            });
+          console.log("response sent to whatsapp with 200");
+          res.sendStatus(200);
         })
         .catch(function (error) {
           console.log(error);
         });
-
-      // request(options, async (error, datafromlocal) => {
-      //   if (error) throw new Error(error);
-      //   let response = await datafromlocal;
-      //   if (response.body.message == "ok") {
-      //     let recivedData = response.body.data;
-      //     console.log(recivedData);
-      //     var options2 = {
-      //       method: "POST",
-      //       url:
-      //         "https://graph.facebook.com/v13.0/" +
-      //         phon_no_id +
-      //         "/messages?access_token=" +
-      //         token,
-      //       headers: {
-      //         "Content-Type": "application/json",
-      //       },
-      //       data: {
-      //         messaging_product: "whatsapp",
-      //         to: from,
-      //         ...recivedData,
-      //       },
-      //     };
-      //     console.log(options2);
-
-      //     request(options2, function (error, response2) {
-      //       if (error) throw new Error(error);
-      //       // console.log(">>>>>", response2);
-
-      //       res.sendStatus(200);
-      //     });
-      //   }
-      // });
     } else {
       res.sendStatus(404);
     }
   }
+};
+
+exports.whatsappOutgoingMessage = async (req, res) => {
+  let recivedData = req.body;
+
+  // var senddata = {
+  //   messaging_product: "whatsapp",
+  //   to: recivedData.from,
+  //   recipient_type: "individual",
+  //   ...recivedData,
+  // };
+  console.log(">>>>>>>>>>>>From local bot", recivedData);
+  // var config2 = {
+  //   method: "post",
+  //   url: "https://graph.facebook.com/v13.0/" + phon_no_id + "/messages",
+  //   headers: {
+  //     Authorization: "Bearer " + token,
+  //     "Content-Type": "application/json",
+  //   },
+  //   data: senddata,
+  // };
 };
 
 exports.BotMap = async (req, res) => {
