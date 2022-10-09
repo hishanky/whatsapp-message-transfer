@@ -97,7 +97,7 @@ exports.BotMap = async (req, res) => {
   }
 
   res.status(200).send({
-    message: `Bot mapped to ${urlData.Url} Registered successfully 31`,
+    message: `Bot mapped to ${urlData.Url} Registered successfully 32`,
   });
 };
 
